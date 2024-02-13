@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Product extends Model {
+const SEARCH_NUMBER = 5;
 
+class Product extends Model {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
@@ -34,5 +35,15 @@ class Product extends Model {
     public function skus(): HasMany
     {
         return $this->hasMany(Sku::class);
+    }
+
+    public static function search($search, $option = 'name')
+    {
+        $searchTerm = "%{$search}%";
+
+        return Product::where($option, 'ilike', $searchTerm)
+            ->paginate(SEARCH_NUMBER)
+            ->getCollection()
+            ->toArray();
     }
 }
