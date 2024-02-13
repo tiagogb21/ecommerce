@@ -44,32 +44,74 @@
                 <nav>
                     <ul class="flex items-center justify-between gap-4">
                         @foreach ($navHeaderLinks as $name => $link)
-                            <li><a href={{ $link }} class="uppercase">{{ $name }}</a></li>
+                            <li :key="$name" class="hover:border-b-2 hover:border-solid hover:border-orange-600">
+                                <a href={{ $link }} class="uppercase">{{ $name }}</a>
+                            </li>
                         @endforeach
                     </ul>
                 </nav>
-                <form class="flex items-center bg-white rounded-md">
-                    <input type="text" name="headerSearch" id="header-search"
-                        class="pl-4 border-none rounded-md focus:border-none focus:ring-0"
-                        aria-label="Header Search" placeholder="Search...">
-                    <button class="w-full h-full p-4 bg-orange-600 border-none rounded-r-md bg-inherit" type="button"
-                        aria-label="Search button">
-                        <svg class="w-3 h-auto fill-white" xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                            <path
-                                d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
-                        </svg>
-                    </button>
-                </form>
+                @livewire('pages.search-bar')
                 <nav>
                     <ul class="flex items-center justify-between gap-8">
                         @foreach ($headerIcons as $header)
-                            <li class="relative">
+                            <li class="relative" :key="$header->name">
+                                @if($header['name'] === 'user')
+                                <div x-data="{dropdownOpen: false}" class="relative">
+                                    <button
+                                        @click="dropdownOpen=true"
+                                        class=""
+                                        aria-label="user info"
+                                    >
+                                        {!! $header['icon'] !!}
+                                    </button>
+                                    <div x-show="dropdownOpen" @click.away="dropdownOpen=false"
+                                        x-transition:enter="ease-out duration-200" x-transition:enter-start="-translate-y-2"
+                                        x-transition:enter-end="translate-y-0"
+                                        class="absolute top-0 right-0 z-50 w-56 mt-12 shadow-lg before:right-0 before:w-4 before:h-4 before:bg-white before:transform before:rotate-45 before:absolute" x-cloak>
+                                        <div
+                                            class="p-1 mt-1 bg-white border rounded-md shadow-md border-neutral-200/70 text-neutral-700">
+                                            @if (auth()->user())
+                                                <div class="px-2 py-1.5 text-sm font-semibold">
+                                                    My Account
+                                                </div>
+                                                <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
+                                                <a href="#_"
+                                                    class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                        stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2">
+                                                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                                        <circle cx="12" cy="7" r="4"></circle>
+                                                    </svg>
+                                                    <span>{{ auth()->user()->name }}</span>
+                                                </a>
+                                                <a href="#_"
+                                                    class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                        stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2">
+                                                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                                        <circle cx="12" cy="7" r="4"></circle>
+                                                    </svg>
+                                                    <span>Profile</span>
+                                                </a>
+                                            @else
+                                                <div class="flex flex-col">
+                                                <a href="{{ route('login') }}">Login</a>
+                                                <a href="{{ route('register') }}">Register</a>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                @else
                                 <a href='/' . {{ $header['name'] }} class="uppercase">{!! $header['icon'] !!}</a>
+                                @endif
                                 @if ($header['showInfo'])
                                     <span
                                         class="absolute flex items-center justify-center w-4 h-4 p-2 text-sm text-white bg-orange-600 rounded-full -top-2 -right-2">0</span>
                                 @endif
+
                             </li>
                         @endforeach
                     </ul>
@@ -78,7 +120,7 @@
             <div class="flex lg:hidden" x-data="{
                 slideOverOpen: false
             }">
-                <button @click="slideOverOpen=true">
+                <button @click="slideOverOpen=true" aria-label="open slide over">
                     <svg class="w-5 h-auto fill-white" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
                         <path

@@ -20,8 +20,10 @@
     <body class="font-sans antialiased text-gray-900">
         <x-header />
 
-        <div class="container mx-auto">
+        <div class="container py-32 mx-auto">
             {{ $slot }}
         </div>
+
+        <x-footer />
     </body>
 </html>

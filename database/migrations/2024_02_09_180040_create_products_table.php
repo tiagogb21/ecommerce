@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('brand_id')
                 ->constrained();
             $table->string('name');
+            $table->decimal('price', 8, 2);
             $table->string('slug');
             $table->text('description');
             $table->text('technical_description');
