@@ -37,11 +37,23 @@ class Order extends Model {
 
     public function payments(): HasMany
     {
-        return $this->hasMany(Payment::class);
+        return $this->hasMany(PaymentMethod::class);
     }
 
     public function shippings(): HasMany
     {
         return $this->hasMany(Shipping::class);
+    }
+
+    public function incrementTotal(int $amount): void
+    {
+        Order::where('order_id', $this->order_id)
+            ->increment('total', $amount);
+    }
+
+    public function decrementTotal(int $amount): void
+    {
+        Order::where('order_id', $this->order_id)
+            ->decrement('total', $amount);
     }
 }

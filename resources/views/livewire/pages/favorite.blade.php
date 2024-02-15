@@ -5,15 +5,19 @@ use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use App\Models\Favorite;
+use App\Models\Product;
 
 new class extends Component {
-    public $favorite = true;
+    public $favorite = false;
 
     public $product;
 
     public function mount($product)
     {
         $this->product = $product;
+        if(auth()->user()) {
+            $this->favorite = Product::isFavoriteByUser(auth()->user(), $product);
+        }
     }
 
     public function markProductAsFavorite($product_id)
@@ -34,7 +38,7 @@ new class extends Component {
 
     public function toggleFavorite($product_id)
     {
-        if(empty(auth()->user())) {
+        if (empty(auth()->user())) {
             return $this->redirect('/login');
         }
 
@@ -44,18 +48,14 @@ new class extends Component {
 };
 ?>
 
-<div
-    id="favorite-icon"
-    class="absolute top-0 right-0 cursor-pointer"
-    wire:click="toggleFavorite({{ $product['id'] }})"
->
+<div id="favorite-icon" class="absolute top-0 right-0 cursor-pointer" wire:click="toggleFavorite({{ $product['id'] }})">
     @if ($favorite)
         <div class="w-4 h-auto fill-black">
-            {!! file_get_contents(public_path('assets/heart.svg')) !!}
+            {!! file_get_contents(public_path('assets/black-heart.svg')) !!}
         </div>
     @else
         <div class="w-4 h-auto fill-black">
-            {!! file_get_contents(public_path('assets/black-heart.svg')) !!}
+            {!! file_get_contents(public_path('assets/heart.svg')) !!}
         </div>
     @endif
 </div>

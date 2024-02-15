@@ -21,7 +21,6 @@ class ProductFactory extends Factory
             'brand_id' => Brand::inRandomOrder()->first()->id,
             'name' => 'product ' . $this->faker->word(),
             'slug' => $this->faker->slug(),
-            'price' => $this->faker->randomFloat(2, 1, 100),
             'description' => $this->faker->paragraph(1),
             'technical_description' => $this->faker->paragraph(1)
         ];

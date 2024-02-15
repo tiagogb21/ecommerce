@@ -26,14 +26,14 @@
     <div class="w-full p-2 overflow-hidden ltr:pl-0 rtl:pr-0">
         <h2
             class="truncate mb-1 font-semibold md:mb-1.5 text-sm sm:text-base md:text-sm lg:text-base xl:text-lg text-heading">
-            {{ $product['name'] }}</h2>
+            {{ ucwords($product['name']) }}</h2>
         <p class="text-body text-xs lg:text-sm leading-normal xl:leading-relaxed max-w-[250px] truncate">
             {{ $product['description'] }}</p>
         <div
             class="font-semibold text-sm sm:text-base mt-1.5 flex flex-wrap gap-x-2 md:text-base lg:text-xl md:mt-2.5 2xl:mt-3
            text-heading">
-            <span class="inline-block false">{{ $product['price'] }}</span>
-            <span class="font-normal text-orange-800 line-through sm:text-base">$16.00</span>
+            <span class="inline-block false">${{ $product['skus'][0]['price'] }}</span>
+            <span class="font-normal text-orange-800 line-through sm:text-base">${{ $product['skus'][1]['price'] }}</span>
         </div>
     </div>
 </div>

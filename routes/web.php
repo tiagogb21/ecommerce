@@ -19,6 +19,8 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+// Route::view('/home', 'livewire.pages.home')->name('home');
+
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');

@@ -46,4 +46,11 @@ class Product extends Model {
             ->getCollection()
             ->toArray();
     }
+
+    public static function isFavoriteByUser(User $user, $product)
+    {
+        return $user->favorites()
+            ->where('product_id', $product['id'])
+            ->exists();
+    }
 }

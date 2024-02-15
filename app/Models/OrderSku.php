@@ -33,4 +33,16 @@ class OrderSku extends Pivot {
     {
         return $this->belongsTo(Sku::class);
     }
+
+    public function addQuantity(int $quantity): void
+    {
+        $this->increment('quantity', $quantity);
+        $this->order->incrementTotal($this->unitary_price * $quantity);
+    }
+
+    public function removeQuantity(int $quantity): void
+    {
+        $this->decrement('quantity', $quantity);
+        $this->order->decrementTotal($this->unitary_price * $quantity);
+    }
 }

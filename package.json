@@ -17,6 +17,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.5.1",
         "@fortawesome/free-brands-svg-icons": "^6.5.1",
+        "@mercadopago/sdk-js": "^0.0.3",
         "@ryangjchandler/alpine-clipboard": "^2.3.0",
         "preline": "^2.0.3"
     }

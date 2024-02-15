@@ -2,13 +2,17 @@
 
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Session;
-use Livewire\Attributes\Layout;
+use Livewire\Attributes\{Layout, Title};
 use Livewire\Volt\Component;
 use App\Models\Product;
 
-new #[Layout('layouts.guest')] class extends Component
+new
+#[Layout('layouts.guest')]
+#[Title('Home')]
+class extends Component
 {
     public array $products = [];
+    public array $sku = [];
 
     public function mount(): void
     {
@@ -17,9 +21,11 @@ new #[Layout('layouts.guest')] class extends Component
 
     public function loadProducts(): void
     {
-        $this->products = Product::paginate(4)
+        $this->products = Product::with('skus')
+            ->paginate(4)
             ->getCollection()
             ->toArray();
+        // dd($this->products);
     }
 }; ?>
 

@@ -44,7 +44,7 @@
                 <nav>
                     <ul class="flex items-center justify-between gap-4">
                         @foreach ($navHeaderLinks as $name => $link)
-                            <li :key="$name" class="hover:border-b-2 hover:border-solid hover:border-orange-600">
+                            <li :key="$name" class="cursor-pointer hover:border-b-2 hover:border-solid hover:border-orange-600">
                                 <a href={{ $link }} class="uppercase">{{ $name }}</a>
                             </li>
                         @endforeach
@@ -54,7 +54,7 @@
                 <nav>
                     <ul class="flex items-center justify-between gap-8">
                         @foreach ($headerIcons as $header)
-                            <li class="relative" :key="$header->name">
+                            <li class="relative" :key="$header['name']">
                                 @if($header['name'] === 'user')
                                 <div x-data="{dropdownOpen: false}" class="relative">
                                     <button
@@ -67,9 +67,9 @@
                                     <div x-show="dropdownOpen" @click.away="dropdownOpen=false"
                                         x-transition:enter="ease-out duration-200" x-transition:enter-start="-translate-y-2"
                                         x-transition:enter-end="translate-y-0"
-                                        class="absolute top-0 right-0 z-50 w-56 mt-12 shadow-lg before:right-0 before:w-4 before:h-4 before:bg-white before:transform before:rotate-45 before:absolute" x-cloak>
+                                        class="absolute z-50 w-auto mt-12 shadow-lg -right-4 -top-4 before:right-4 before:w-4 before:h-4 before:bg-white before:transform before:rotate-45 before:absolute" x-cloak>
                                         <div
-                                            class="p-1 mt-1 bg-white border rounded-md shadow-md border-neutral-200/70 text-neutral-700">
+                                            class="w-auto px-4 py-2 mt-1 bg-white border rounded-md shadow-md border-neutral-200/70 text-neutral-700">
                                             @if (auth()->user())
                                                 <div class="px-2 py-1.5 text-sm font-semibold">
                                                     My Account
